@@ -1,0 +1,4 @@
+node_modules
+.eslintrc.js
+.prettierignore
+.prettierrc.json
