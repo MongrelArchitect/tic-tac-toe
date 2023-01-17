@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #aaa;
+  font-family: Helvetica, Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 2fr 10fr 1fr;
+  height: 100%;
+  margin: auto;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.content {
+  align-items: center;
+  background: #ccc;
+  display: grid;
+  justify-items: center;
+}
+
+.footer {
+  background: #f55;
+}
+
+.game {
+  aspect-ratio: 1 / 1;
+  background: #111;
+  display: grid;
+  gap: 2px;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  max-width: 450px;
+  width: 100%;
+}
+
+.grid-cell {
+  background: #fff;
+}
+
+.header {
+  background: #5ff;
+}
