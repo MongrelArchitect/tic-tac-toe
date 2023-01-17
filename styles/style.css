@@ -40,7 +40,17 @@ body {
 }
 
 .grid-cell {
+  align-items: center;
   background: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: "Courier", monospace;
+  font-size: 5rem;
+  justify-content: center;
+}
+
+.grid-cell:hover {
+  background: #eee;
 }
 
 .header {
