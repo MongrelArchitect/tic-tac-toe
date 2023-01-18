@@ -9,6 +9,13 @@ const gameBoard = (() => {
   // Keep track of whose turn (boolean since there's only two players)
   let turn = true;
 
+  const whoseTurn = () => {
+    if (turn) {
+      return playerOne;
+    }
+    return playerTwo;
+  };
+
   // Each grid cell data-set index corresponds to the gameboard array
   const placeMark = (event) => {
     const position = +event.target.dataset.index;
@@ -72,7 +79,7 @@ const gameBoard = (() => {
   };
 
   return {
-    board, checkWinner, placeMark, reset,
+    board, whoseTurn, checkWinner, placeMark, reset, turn,
   };
 })();
 
@@ -82,6 +89,8 @@ const displayControl = (() => {
     for (let i = 0; i < gridCells.length; i += 1) {
       gridCells[i].textContent = gameBoard.board[i];
     }
+    const currentPlayer = document.querySelector('.current-player');
+    currentPlayer.textContent = gameBoard.whoseTurn().name;
   };
 
   const showReset = (winner) => {
