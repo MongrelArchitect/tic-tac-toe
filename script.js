@@ -19,6 +19,7 @@ const gameBoard = (() => {
   // Each grid cell data-set index corresponds to the gameboard array
   const placeMark = (event) => {
     const position = +event.target.dataset.index;
+    // Don't do anything if the space isn't clear
     if (board[position] === '') {
       if (turn) {
         board[position] = playerOne.symbol;
@@ -73,9 +74,11 @@ const gameBoard = (() => {
   };
 
   const reset = () => {
+    // Clear the board and start over with player one's turn
     for (let i = 0; i < board.length; i += 1) {
       board[i] = '';
     }
+    turn = true;
   };
 
   return {
@@ -84,6 +87,7 @@ const gameBoard = (() => {
 })();
 
 const displayControl = (() => {
+  // Populate the grid with player marks from the gameboard
   const drawBoard = () => {
     const gridCells = document.querySelectorAll('.grid-cell');
     for (let i = 0; i < gridCells.length; i += 1) {
@@ -93,6 +97,7 @@ const displayControl = (() => {
     currentPlayer.textContent = gameBoard.whoseTurn().name;
   };
 
+  // We've got a game over so show the reset section
   const showReset = (winner) => {
     const header = document.querySelector('.header');
     header.classList.add('extended');
