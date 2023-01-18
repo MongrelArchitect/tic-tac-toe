@@ -51,6 +51,25 @@
                   placeholder="O"
                   maxlength="1"
                 />
+                <div class="type">
+                  <label for="human">Human
+                    <input
+                      type="radio"
+                      id="human"
+                      name="player-type"
+                      value="human"
+                      checked
+                    />
+                  </label>
+                  <label for="comp">Computer
+                    <input
+                      type="radio"
+                      id="comp"
+                      name="player-type"
+                      value="comp"
+                    />
+                  </label>
+                </div>
               </fieldset>
             </div>
             <button id="start">START</button>
@@ -70,7 +89,7 @@
           <div class="grid-cell" data-index="8"></div>
         </div>
         <div class="game-info">
-          <p><span class="current-player">Player One</span>'s turn</p>
+          <p class="current-player"></p>
         </div>
       </div>
       <div class="footer">

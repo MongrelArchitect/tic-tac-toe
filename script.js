@@ -1,10 +1,28 @@
-const Player = (name, symbol) => ({ name, symbol });
+const Player = (name, symbol, isComp) => {
+  const computerPlay = (board) => {
+    let choice = Math.floor(Math.random() * board.length);
+    // Don't enter this loop at all if the board is full
+    if (board.includes('')) {
+      while (board[choice] !== '') {
+        choice = Math.floor(Math.random() * board.length);
+      }
+    }
+    return choice;
+  };
+
+  return {
+    name,
+    symbol,
+    isComp,
+    computerPlay,
+  };
+};
 
 const gameBoard = (() => {
   const board = ['', '', '', '', '', '', '', '', ''];
 
-  const playerOne = Player('Player One', 'X');
-  const playerTwo = Player('Player Two', 'O');
+  const playerOne = Player('Player One', 'X', false);
+  const playerTwo = Player('Player Two', 'O', false);
 
   // Keep track of whose turn (boolean since there's only two players)
   let turn = true;
@@ -14,20 +32,6 @@ const gameBoard = (() => {
       return playerOne;
     }
     return playerTwo;
-  };
-
-  // Each grid cell data-set index corresponds to the gameboard array
-  const placeMark = (event) => {
-    const position = +event.target.dataset.index;
-    // Don't do anything if the space isn't clear
-    if (board[position] === '') {
-      if (turn) {
-        board[position] = playerOne.symbol;
-      } else {
-        board[position] = playerTwo.symbol;
-      }
-      turn = !turn;
-    }
   };
 
   // Identify the winning player by their mark
@@ -73,6 +77,26 @@ const gameBoard = (() => {
     return winner;
   };
 
+  // Each grid cell data-set index corresponds to the gameboard array
+  const placeMark = (event) => {
+    const position = +event.target.dataset.index;
+    // Don't do anything if the space isn't clear
+    if (board[position] === '') {
+      if (turn) {
+        board[position] = playerOne.symbol;
+        if (!playerTwo.isComp) {
+          turn = !turn;
+        } else if (gameBoard.checkWinner() === null) {
+          // Other player is computer - let them play if nobody has won
+          board[playerTwo.computerPlay(board)] = playerTwo.symbol;
+        }
+      } else {
+        board[position] = playerTwo.symbol;
+        turn = !turn;
+      }
+    }
+  };
+
   const reset = () => {
     // Clear the board and start over with player one's turn
     for (let i = 0; i < board.length; i += 1) {
@@ -100,8 +124,11 @@ const displayControl = (() => {
     for (let i = 0; i < gridCells.length; i += 1) {
       gridCells[i].textContent = gameBoard.board[i];
     }
-    const currentPlayer = document.querySelector('.current-player');
-    currentPlayer.textContent = gameBoard.whoseTurn().name;
+    const gameInfo = document.querySelector('.game-info');
+    gameInfo.textContent = `${gameBoard.whoseTurn().name}'s turn`;
+    if (gameBoard.playerTwo.isComp) {
+      gameInfo.textContent = 'Playing against computer';
+    }
   };
 
   // We've got a game over so show the reset section
@@ -131,9 +158,14 @@ const displayControl = (() => {
     const playerTwoSymbol = document.querySelector('#player-two-symbol');
     const startButton = document.querySelector('#start');
     const gameSettings = document.querySelector('.game-settings');
+    const comp = document.querySelector('#comp');
 
     startButton.addEventListener('click', (event) => {
       event.preventDefault();
+
+      if (comp.checked) {
+        gameBoard.playerTwo.isComp = true;
+      }
 
       // Set default names if the user doesn't enter any
       if (!playerOneName.value) {
