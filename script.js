@@ -82,7 +82,14 @@ const gameBoard = (() => {
   };
 
   return {
-    board, whoseTurn, checkWinner, placeMark, reset, turn,
+    board,
+    whoseTurn,
+    checkWinner,
+    placeMark,
+    reset,
+    turn,
+    playerOne,
+    playerTwo,
   };
 })();
 
@@ -116,7 +123,35 @@ const displayControl = (() => {
     });
   };
 
-  return { drawBoard, showReset };
+  const setupGame = () => {
+    const header = document.querySelector('.header');
+    const playerOneName = document.querySelector('#player-one-name');
+    const playerTwoName = document.querySelector('#player-two-name');
+    const startButton = document.querySelector('#start');
+    const gameSettings = document.querySelector('.game-settings');
+
+    startButton.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (!playerOneName.value) {
+        gameBoard.playerOne.name = 'Player One';
+      } else {
+        gameBoard.playerOne.name = playerOneName.value;
+      }
+
+      if (!playerTwoName.value) {
+        gameBoard.playerTwo.name = 'Player Two';
+      } else {
+        gameBoard.playerTwo.name = playerTwoName.value;
+      }
+
+      header.classList.remove('extended');
+      gameSettings.classList.add('hidden');
+      drawBoard();
+    });
+  };
+
+  return { drawBoard, showReset, setupGame };
 })();
 
 const gameControl = (() => {
@@ -136,6 +171,6 @@ const gameControl = (() => {
   return { playGame };
 })();
 
-displayControl.drawBoard();
+displayControl.setupGame();
 
 gameControl.playGame();

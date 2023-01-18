@@ -9,11 +9,24 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
+      <div class="header extended">
         <h1>Tic Tac Toe</h1>
         <div class="game-over hidden">
           <p><span class="winner-name">NAME</span> wins!</p>
           <button id="reset">RESET</button>
+        </div>
+        <div class="game-start">
+          <form class="game-settings">
+            <div>
+              <label for="player-one-name">Player One Name:</label>
+              <input type="text" id="player-one-name" placeholder="Player One">
+            </div>
+            <div>
+              <label for="player-two-name">Player Two Name:</label>
+              <input type="text" id="player-two-name" placeholder="Player Two">
+            </div>
+            <button id="start">START</button>
+          </form>
         </div>
       </div>
       <div class="content">

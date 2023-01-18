@@ -70,23 +70,54 @@ body {
   font-size: 2rem;
 }
 
-.game-over > button {
+.game-over > button,
+.game-settings > button {
   background: #eee;
   border: none;
   border-radius: 10px;
-  box-shadow: 4px 4px 0 orange;
+  box-shadow: 4px 4px 0 #ff5050;
+  color: #333;
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: bold;
   padding: 16px 24px 16px 24px;
 }
 
-.game-over > button:hover {
-  outline: 4px solid orange;
+.game-over > button:hover,
+.game-over > button:focus,
+.game-settings > button:hover,
+.game-settings > button:focus,
+.game-settings input:focus {
+  outline: 4px solid #ff5050;
 }
 
-.game-over > button:active {
+.game-over > button:active,
+.game-settings > button:active {
   scale: 0.98;
+}
+
+.game-settings {
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  gap: 64px;
+}
+
+.game-settings div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.game-settings input {
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  padding: 8px;
+}
+
+.game-settings input:focus {
 }
 
 .grid-cell {
