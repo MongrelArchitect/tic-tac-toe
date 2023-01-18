@@ -12,6 +12,7 @@ body {
 }
 
 .container {
+  box-shadow: 0 0 5px #222;
   display: grid;
   grid-template-rows: 100px 1fr 50px;
   height: 100%;
@@ -29,8 +30,20 @@ body {
 }
 
 .footer {
-  background: #f55;
+  align-items: center;
+  background: rgba(255, 80, 80, 0.5);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
   grid-area: 3 / 1 / 4 / 2;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer  a {
+  color: #222;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .game {
@@ -40,7 +53,7 @@ body {
   gap: 2px;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   max-width: 600px;
-  width: 100%;
+  width: 95%;
 }
 
 .game-over {
@@ -71,7 +84,7 @@ body {
 
 .grid-cell {
   align-items: center;
-  background: #fff;
+  background: #ccc;
   cursor: pointer;
   display: flex;
   font-family: "Courier", monospace;
@@ -81,7 +94,8 @@ body {
 }
 
 .grid-cell:hover {
-  background: #eee;
+  background: #ee9;
+  outline: 2px solid #111
 }
 
 .header {
@@ -97,8 +111,9 @@ body {
 }
 
 .header > h1 {
-  font-size: 4rem;
+  font-size: min(18vw, 4rem);
   font-weight: bold;
+  text-align: center;
 }
 
 .hidden {
