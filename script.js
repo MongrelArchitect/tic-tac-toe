@@ -126,23 +126,37 @@ const displayControl = (() => {
   const setupGame = () => {
     const header = document.querySelector('.header');
     const playerOneName = document.querySelector('#player-one-name');
+    const playerOneSymbol = document.querySelector('#player-one-symbol');
     const playerTwoName = document.querySelector('#player-two-name');
+    const playerTwoSymbol = document.querySelector('#player-two-symbol');
     const startButton = document.querySelector('#start');
     const gameSettings = document.querySelector('.game-settings');
 
     startButton.addEventListener('click', (event) => {
       event.preventDefault();
 
+      // Set default names if the user doesn't enter any
       if (!playerOneName.value) {
         gameBoard.playerOne.name = 'Player One';
       } else {
         gameBoard.playerOne.name = playerOneName.value;
       }
-
       if (!playerTwoName.value) {
         gameBoard.playerTwo.name = 'Player Two';
       } else {
         gameBoard.playerTwo.name = playerTwoName.value;
+      }
+
+      // Set default symbols if the user doesn't enter any
+      if (!playerOneSymbol.value) {
+        gameBoard.playerOne.symbol = 'X';
+      } else {
+        gameBoard.playerOne.symbol = playerOneSymbol.value;
+      }
+      if (!playerTwoSymbol.value) {
+        gameBoard.playerTwo.symbol = 'O';
+      } else {
+        gameBoard.playerTwo.symbol = playerTwoSymbol.value;
       }
 
       header.classList.remove('extended');

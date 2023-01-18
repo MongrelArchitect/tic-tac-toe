@@ -18,12 +18,40 @@
         <div class="game-start">
           <form class="game-settings">
             <div>
-              <label for="player-one-name">Player One Name:</label>
-              <input type="text" id="player-one-name" placeholder="Player One">
+              <fieldset>
+                <legend>Player One</legend>
+                <label for="player-one-name">Name:</label>
+                <input
+                  type="text"
+                  id="player-one-name"
+                  placeholder="Player One"
+                />
+                <label for="player-one-symbol">Symbol:</label>
+                <input
+                  type="text"
+                  id="player-one-symbol"
+                  placeholder="X"
+                  maxlength="1"
+                />
+              </fieldset>
             </div>
             <div>
-              <label for="player-two-name">Player Two Name:</label>
-              <input type="text" id="player-two-name" placeholder="Player Two">
+              <fieldset>
+                <legend>Player Two</legend>
+                <label for="player-two-name">Name:</label>
+                <input
+                  type="text"
+                  id="player-two-name"
+                  placeholder="Player Two"
+                />
+                <label for="player-two-symbol">Symbol:</label>
+                <input
+                  type="text"
+                  id="player-two-symbol"
+                  placeholder="O"
+                  maxlength="1"
+                />
+              </fieldset>
             </div>
             <button id="start">START</button>
           </form>
