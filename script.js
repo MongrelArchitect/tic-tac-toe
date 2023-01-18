@@ -22,6 +22,7 @@ const gameBoard = (() => {
     }
   };
 
+  // Identify the winning player by their mark
   const readMark = (mark) => {
     if (mark === playerOne.symbol) {
       return playerOne;
@@ -32,7 +33,7 @@ const gameBoard = (() => {
   const checkWinner = () => {
     // Board full, nobody wins
     if (!gameBoard.board.includes('')) {
-      return { winner: '' };
+      return { name: 'Nobody' };
     }
 
     const winConditions = [
@@ -56,7 +57,7 @@ const gameBoard = (() => {
       ) {
         // ...unless it's three empty spaces
         if (gameBoard.board[condition[0]] !== '') {
-          winner = { winner: readMark(gameBoard.board[condition[0]]) };
+          winner = readMark(gameBoard.board[condition[0]]);
         }
       }
     });
@@ -64,7 +65,15 @@ const gameBoard = (() => {
     return winner;
   };
 
-  return { board, checkWinner, placeMark };
+  const reset = () => {
+    for (let i = 0; i < board.length; i += 1) {
+      board[i] = '';
+    }
+  };
+
+  return {
+    board, checkWinner, placeMark, reset,
+  };
 })();
 
 const displayControl = (() => {
@@ -75,26 +84,44 @@ const displayControl = (() => {
     }
   };
 
-  return { drawBoard };
+  const showReset = (winner) => {
+    const header = document.querySelector('.header');
+    header.classList.add('extended');
+    const gameOver = document.querySelector('.game-over');
+    gameOver.classList.remove('hidden');
+    const winnerName = document.querySelector('.winner-name');
+    winnerName.textContent = winner.name;
+
+    const resetButton = document.querySelector('#reset');
+    resetButton.addEventListener('click', () => {
+      // clear the board & reset
+      gameBoard.reset();
+      gameOver.classList.add('hidden');
+      header.classList.remove('extended');
+      drawBoard();
+    });
+  };
+
+  return { drawBoard, showReset };
 })();
 
 const gameControl = (() => {
-  const addListeners = () => {
+  const playGame = () => {
     const gridCells = document.querySelectorAll('.grid-cell');
     gridCells.forEach((cell) => {
       cell.addEventListener('click', (event) => {
         gameBoard.placeMark(event);
         displayControl.drawBoard();
         if (gameBoard.checkWinner() !== null) {
-          console.log(gameBoard.checkWinner());
+          displayControl.showReset(gameBoard.checkWinner());
         }
       });
     });
   };
 
-  return { addListeners };
+  return { playGame };
 })();
 
 displayControl.drawBoard();
 
-gameControl.addListeners();
+gameControl.playGame();
