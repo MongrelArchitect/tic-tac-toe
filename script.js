@@ -22,7 +22,49 @@ const gameBoard = (() => {
     }
   };
 
-  return { board, placeMark };
+  const readMark = (mark) => {
+    if (mark === playerOne.symbol) {
+      return playerOne;
+    }
+    return playerTwo;
+  };
+
+  const checkWinner = () => {
+    // Board full, nobody wins
+    if (!gameBoard.board.includes('')) {
+      return { winner: '' };
+    }
+
+    const winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    let winner = null;
+
+    winConditions.forEach((condition) => {
+      // Three in a row - we have a winner...
+      if (
+        gameBoard.board[condition[0]] === gameBoard.board[condition[1]]
+        && gameBoard.board[condition[0]] === gameBoard.board[condition[2]]
+      ) {
+        // ...unless it's three empty spaces
+        if (gameBoard.board[condition[0]] !== '') {
+          winner = { winner: readMark(gameBoard.board[condition[0]]) };
+        }
+      }
+    });
+
+    return winner;
+  };
+
+  return { board, checkWinner, placeMark };
 })();
 
 const displayControl = (() => {
@@ -36,16 +78,23 @@ const displayControl = (() => {
   return { drawBoard };
 })();
 
-function listeners() {
-  const gridCells = document.querySelectorAll('.grid-cell');
-  gridCells.forEach((cell) => {
-    cell.addEventListener('click', (event) => {
-      gameBoard.placeMark(event);
-      displayControl.drawBoard();
+const gameControl = (() => {
+  const addListeners = () => {
+    const gridCells = document.querySelectorAll('.grid-cell');
+    gridCells.forEach((cell) => {
+      cell.addEventListener('click', (event) => {
+        gameBoard.placeMark(event);
+        displayControl.drawBoard();
+        if (gameBoard.checkWinner() !== null) {
+          console.log(gameBoard.checkWinner());
+        }
+      });
     });
-  });
-}
+  };
+
+  return { addListeners };
+})();
 
 displayControl.drawBoard();
 
-listeners();
+gameControl.addListeners();
