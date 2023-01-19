@@ -1,12 +1,108 @@
 const Player = (name, symbol, isComp) => {
   const computerPlay = (board) => {
-    let choice = Math.floor(Math.random() * board.length);
-    // Don't enter this loop at all if the board is full
-    if (board.includes('')) {
-      while (board[choice] !== '') {
-        choice = Math.floor(Math.random() * board.length);
+    // Will search through these to find either a win or block
+    const options = {
+      0: [
+        [3, 6],
+        [1, 2],
+        [4, 8],
+      ],
+      1: [
+        [4, 7],
+        [0, 2],
+      ],
+      2: [
+        [5, 8],
+        [0, 1],
+        [4, 6],
+      ],
+      3: [
+        [0, 6],
+        [4, 5],
+      ],
+      4: [
+        [1, 7],
+        [3, 5],
+        [0, 8],
+        [2, 6],
+      ],
+      5: [
+        [2, 8],
+        [3, 4],
+      ],
+      6: [
+        [0, 3],
+        [7, 8],
+        [2, 4],
+      ],
+      7: [
+        [1, 4],
+        [6, 8],
+      ],
+      8: [
+        [2, 5],
+        [6, 7],
+        [0, 4],
+      ],
+    };
+
+    let choice = null;
+    const keys = Object.keys(options);
+    // First search for a pending win
+    for (let i = 0; i < keys.length; i += 1) {
+      if (choice) {
+        break;
+      }
+      const currentOption = options[i];
+      for (let j = 0; j < currentOption.length; j += 1) {
+        if (
+          board[currentOption[j][0]] !== ''
+          && board[currentOption[j][1]] !== ''
+          && board[currentOption[j][0]] === board[currentOption[j][1]]
+          && board[currentOption[j][0]] === symbol
+        ) {
+          // Found a winning move!
+          if (board[i] === '') {
+            choice = i;
+            break;
+          }
+        }
       }
     }
+
+    // If there's no wins, do it again & search for a block
+    if (!choice) {
+      for (let i = 0; i < keys.length; i += 1) {
+        if (choice) {
+          break;
+        }
+        const currentOption = options[i];
+        for (let j = 0; j < currentOption.length; j += 1) {
+          if (
+            board[currentOption[j][0]] !== ''
+            && board[currentOption[j][1]] !== ''
+            && board[currentOption[j][0]] === board[currentOption[j][1]]
+          ) {
+            if (board[i] === '') {
+              choice = i;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    // Couldn't find a pending win or block so choose at random
+    if (!choice) {
+      choice = Math.floor(Math.random() * board.length);
+      // Don't enter this loop at all if the board is full
+      if (board.includes('')) {
+        while (board[choice] !== '') {
+          choice = Math.floor(Math.random() * board.length);
+        }
+      }
+    }
+
     return choice;
   };
 
