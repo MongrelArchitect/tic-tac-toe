@@ -139,11 +139,6 @@ const gameBoard = (() => {
   };
 
   const checkWinner = () => {
-    // Board full, nobody wins
-    if (!gameBoard.board.includes('')) {
-      return { name: 'Nobody' };
-    }
-
     const winConditions = [
       [0, 1, 2],
       [3, 4, 5],
@@ -155,7 +150,8 @@ const gameBoard = (() => {
       [2, 4, 6],
     ];
 
-    let winner = null;
+    // Nobody wins unless someone has three in a row
+    let winner = { name: 'Nobody' };
 
     winConditions.forEach((condition) => {
       // Three in a row - we have a winner...
@@ -169,6 +165,13 @@ const gameBoard = (() => {
         }
       }
     });
+
+    // Keep going if the board isn't full and we don't have a winner
+    if (gameBoard.board.includes('')) {
+      if (winner.name === 'Nobody') {
+        winner = null;
+      }
+    }
 
     return winner;
   };
