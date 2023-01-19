@@ -26,7 +26,7 @@ body {
   background: #ccc;
   display: grid;
   grid-area: 2 / 1 / 3 / 2;
-  grid-template-rows: 1fr 80px;
+  grid-template-rows: 1fr min(1fr, 100px);
   justify-items: center;
 }
 
@@ -58,8 +58,10 @@ body {
 }
 
 .game-info {
-  align-self: start;
+  display: flex;
+  flex-direction: column;
   font-size: 2rem;
+  gap: 24px;
   text-align: center;
 }
 
@@ -182,6 +184,21 @@ body {
 
 .hidden {
   display: none;
+}
+
+.running-score {
+  display: flex;
+  font-size: 1.6rem;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+.running-score > div {
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
 
 .type {

@@ -220,10 +220,10 @@ const displayControl = (() => {
     for (let i = 0; i < gridCells.length; i += 1) {
       gridCells[i].textContent = gameBoard.board[i];
     }
-    const gameInfo = document.querySelector('.game-info');
-    gameInfo.textContent = `${gameBoard.whoseTurn().name}'s turn`;
+    const currentPlayer = document.querySelector('.current-player');
+    currentPlayer.textContent = `${gameBoard.whoseTurn().name}'s turn`;
     if (gameBoard.playerTwo.isComp) {
-      gameInfo.textContent = 'Playing against computer';
+      currentPlayer.textContent = 'Playing against computer';
     }
   };
 
@@ -244,6 +244,21 @@ const displayControl = (() => {
       header.classList.remove('extended');
       drawBoard();
     });
+  };
+
+  const runningScore = (winner) => {
+    const runningOneName = document.querySelector('.running-one-name');
+    const runningTwoName = document.querySelector('.running-two-name');
+    const runningOneScore = document.querySelector('.running-one-score');
+    const runningTwoScore = document.querySelector('.running-two-score');
+    runningOneName.textContent = `${gameBoard.playerOne.name}:`;
+    runningTwoName.textContent = `${gameBoard.playerTwo.name}:`;
+    if (winner === gameBoard.playerOne) {
+      runningOneScore.textContent = +runningOneScore.textContent + 1;
+    }
+    if (winner === gameBoard.playerTwo) {
+      runningTwoScore.textContent = +runningTwoScore.textContent + 1;
+    }
   };
 
   const setupGame = () => {
@@ -289,11 +304,17 @@ const displayControl = (() => {
 
       header.classList.remove('extended');
       gameSettings.classList.add('hidden');
+      runningScore();
       drawBoard();
     });
   };
 
-  return { drawBoard, showReset, setupGame };
+  return {
+    drawBoard,
+    showReset,
+    setupGame,
+    runningScore,
+  };
 })();
 
 const gameControl = (() => {
@@ -305,6 +326,7 @@ const gameControl = (() => {
         displayControl.drawBoard();
         if (gameBoard.checkWinner() !== null) {
           displayControl.showReset(gameBoard.checkWinner());
+          displayControl.runningScore(gameBoard.checkWinner());
         }
       });
     });
